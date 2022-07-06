@@ -3,21 +3,34 @@ import operations
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    html =  """
-    <html>
-        <body>
-            <h1> Home Page </h1>
-            <p> My home page</p>
-            <a href='/add'> Go to add page</a>
-            <a href='/sub'> Go to subtract page</a>
-            <a href='/mult'> Go to multiply page</a>
-            <a href='/div'> Go to divide page</a>
-        </body>
-    </html>
-    """
-    return html
+@app.route('/math/<operation>')
+def math_home(operation):
+    math_funcs = { 'add': operations.add, 'sub':operations.sub, 
+    'mult':operations.mult, 'div':operations.div}
+
+    a = int(request.args["a"]) 
+    b = int(request.args["b"])
+    for func in math_funcs.keys():
+         if func == operation:
+             return f"{math_funcs[operation](a,b)}"
+         
+
+    # a = int(request.args["a"])
+    # b = int(request.args["b"])
+    # if operation == 'add':
+    #     return f"{operations.add(a,b)}"
+    # elif operation == 'sub':
+    #     return f"{operations.sub(a,b)}"
+    # elif operation == 'mult':
+    #     return f"{operations.mult(a,b)}"
+    # elif operation == 'div':
+    #     return f"{operations.div(a,b)}"
+
+
+    
+    
+    
+
 
 
 # @app.route("/add")
@@ -31,6 +44,10 @@ def home():
 #     </form>
 #     """
     
+
+
+
+
 
 @app.route("/add")
 def sum():
@@ -112,3 +129,4 @@ def dividend():
 
 
     return f"""{int(operations.div(a,b))} """
+
